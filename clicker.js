@@ -2,6 +2,7 @@ var power = 0;
 let timer = null;
 let coolDownTimer = null;
 let mealCountDown = 3;
+let coolDownCountDown = 5;
 
 function getPower(number) {
     if (bonusPower > 1) {
@@ -76,6 +77,8 @@ function countDown() {
 function mealTime(){
     bonusPower = 10;
     document.getElementById('mealTimeTimer').innerHTML = mealCountDown;
+    const cdLabel = document.getElementById('cool-down-label');
+    cdLabel.innerHTML = coolDownCountDown;
     timer = setInterval(()=>{
         if (mealCountDown === 0) {
             clearTimeout(timer);
@@ -89,13 +92,22 @@ function mealTime(){
 
 function startCooldown () {
     const button = document.getElementById('meal-time-button');
+    const cdLabel = document.getElementById('cool-down-label');
     button.disabled = true;
     bonusPower = 0;
 
     coolDownTimer = setInterval(() => {
-        mealCountDown = 3;
-        button.disabled = false;
-    }, 60000)
+        coolDownCountDown--;
+        cdLabel.innerHTML = coolDownCountDown;
+
+        if(coolDownCountDown === 0) {
+            mealCountDown = 3;
+            coolDownCountDown = 5;
+            clearTimeout(coolDownTimer);
+            button.disabled = false;
+            return;
+        }
+    }, 1000)
 }
 
 
