@@ -1,8 +1,12 @@
 var power = 0;
 let timer = null;
 let coolDownTimer = null;
-let mealCountDown = 3;
-let coolDownCountDown = 5;
+
+const MEAL_COUNT = 3;
+const COOL_DOWN_COUNT = 5;
+
+let mealCountDown = MEAL_COUNT;
+let coolDownCountDown = COOL_DOWN_COUNT;
 
 function getPower(number) {
     if (bonusPower > 1) {
@@ -101,8 +105,8 @@ function startCooldown () {
         cdLabel.innerHTML = coolDownCountDown;
 
         if(coolDownCountDown === 0) {
-            mealCountDown = 3;
-            coolDownCountDown = 5;
+            mealCountDown = MEAL_COUNT;
+            coolDownCountDown = COOL_DOWN_COUNT;
             clearTimeout(coolDownTimer);
             button.disabled = false;
             return;
