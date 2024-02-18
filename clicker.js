@@ -1,11 +1,16 @@
 var power = 0;
+let timer = null;
+let coolDownTimer = null;
+let mealCountDown = 3;
 
-function getPower(number){
-    if (bonusPower > 1){
-    power = bonusPower + number;
+function getPower(number) {
+    if (bonusPower > 1) {
+        power += bonusPower + number;
     } else {
-    power = power + number * upgradePower;
+        power = power + number * upgradePower;
+        console.log('there');
     }
+
     document.getElementById("power").innerHTML = power;
 }
 
@@ -33,8 +38,6 @@ function hireTrainer() {
     document.getElementById('trainer').innerHTML = trainer
     document.getElementById('trainerCost').innerHTML = trainerCost
     setInterval(() => getPower(trainer),500);
-      
-
 }
 
 var barracks = 0;
@@ -71,16 +74,28 @@ function countDown() {
 }
 
 function mealTime(){
-    seconds = 10;
-    //if (seconds === 0)
-    //clearTimeout(timer);
-    bonusPower = 10
-    document.getElementById('mealTimeTimer').innerHTML = seconds
-    //setTimeout((), 10000) return;
+    bonusPower = 10;
+    document.getElementById('mealTimeTimer').innerHTML = mealCountDown;
+    timer = setInterval(()=>{
+        if (mealCountDown === 0) {
+            clearTimeout(timer);
+            startCooldown();
+            return;
+        };
+        mealCountDown--;
+        document.getElementById('mealTimeTimer').innerHTML = mealCountDown;
+    }, 1000);
+}
 
+function startCooldown () {
+    const button = document.getElementById('meal-time-button');
+    button.disabled = true;
+    bonusPower = 0;
 
-
-
+    coolDownTimer = setInterval(() => {
+        mealCountDown = 3;
+        button.disabled = false;
+    }, 60000)
 }
 
 
